@@ -1,0 +1,28 @@
+def is_letter(str)
+    # Use 'str[/[a-zA-Z]*/] == str' to let all_letters
+    # yield true for the empty string
+    str[/[a-zA-Z]+/]  == str
+end
+
+string = gets
+shift = gets
+
+encrypted = ''
+unecrypted = string.split('')
+
+for letter in unecrypted do
+  new_letter = letter.ord + shift.to_i
+
+  if !is_letter(letter) then
+    encrypted += letter
+    next
+  elsif letter.ord <=90 and new_letter > 90 then
+    new_letter = new_letter - 26
+  elsif letter.ord <= 122 and new_letter > 122 then
+    new_letter = new_letter - 26
+  end
+
+  encrypted += new_letter.chr
+end
+
+puts encrypted
