@@ -1,0 +1,35 @@
+array = Array.new
+array = [4,3,78,2,0,2]
+
+def is_sorted(array)
+  for a in array do
+    for b in array do
+      if array.find_index(a) >= array.find_index(b) then
+        next
+      end
+
+      if a > b then
+        return false
+      end
+    end
+  end
+
+  return true
+end
+
+def bubble_sort(array)
+  while(!is_sorted(array)) do
+    for i in 0..array.length()-2 do
+      if array[i] > array[i+1] then
+        a = array[i] 
+        b = array[i+1]
+        array[i] = b
+        array[i+1] = a
+      end
+    end
+  end
+
+  return array
+end
+
+puts bubble_sort(array)
