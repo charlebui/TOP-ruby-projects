@@ -1,0 +1,16 @@
+def substrings(string, dictionary)
+  word_count = Hash.new
+  for word in dictionary do     
+    if string.scan(word).count > 0 then 
+      word_count[string.scan(word)] = string.scan(word).count
+    end
+  end
+
+  puts word_count
+end
+
+
+dictionary = ["below","down","go","going","horn","how","howdy","it","i","low","own","part","partner","sit"]
+string = "Howdy partner, sit down! How's it going?"
+
+substrings(string, dictionary)
