@@ -1,0 +1,34 @@
+stocks = Array.new
+stocks = [17,3,6,9,15,8,6,1,10]
+
+def stockpicker(stocks)
+  bs_days = Array.new
+  biggest_profit = 0
+
+  #buy and sell day
+  bDay = 0
+  sDay = 0
+
+  for buy in stocks do
+    for sell in stocks do
+
+      #conditions for buying/selling stocks
+      if stocks.find_index(buy) == stocks.find_index(sell) or stocks.find_index(sell) == 0 or stocks.find_index(buy) > stocks.find_index(sell) then
+        next
+      end
+
+      profit = sell - buy
+
+      if profit > biggest_profit then
+        bDay = stocks.find_index(buy)
+        sDay = stocks.find_index(sell)
+        biggest_profit = profit
+      end
+    end
+  end
+
+  bs_days = [bDay, sDay]  
+  return bs_days
+end
+
+puts stockpicker(stocks) 
