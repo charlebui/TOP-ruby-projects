@@ -1,0 +1,162 @@
+class Player
+
+  def initialize(name, piece, score)
+    @name = name
+    @piece = piece
+    @score = score
+  end
+
+  def score
+    return @score
+  end
+
+  def win
+    puts @name + " win!"
+    @score += 1
+  end
+
+  def piece 
+    return @piece
+  end
+end
+
+class Game < Player
+  @@a = Array.[](" ", " ", " ")
+  @@b = Array.[](" ", " ", " ")
+  @@c = Array.[](" ", " ", " ")
+  @@p1_turn = true
+
+  @@board = Array.[](@@a, @@b, @@c)
+
+  def initialize(p1, p2)
+    @p1 = p1
+    @p2 = p2
+  end
+
+  def get_board
+    i = 1
+    puts "      1    2    3"
+    for col in @@board
+      puts i.to_s + " > " + col.to_s
+      i += 1
+    end
+  end
+
+  def move
+    puts "Choose a coordinate. ex 1-1"
+    coords = gets
+    coords = coords.split("-")
+    
+    if @@p1_turn == true
+      @@board[coords[0].to_i-1][coords[1].to_i-1] = @p1.piece
+      @@p1_turn = false
+    elsif @@p1_turn == false
+      @@board[coords[0].to_i-1][coords[1].to_i-1] = @p2.piece
+      @@p1_turn = true
+    end
+
+    if @@p1_turn == false and check_win(@p1.piece) == true
+      @p1.win
+      
+      puts "p1 score : " +  @p1.score.to_s
+      puts "p2 score : " +  @p2.score.to_s
+
+      reset_board
+    elsif @@p1_turn == true and check_win(@p2_piece) == true
+      @p2.win
+      
+      puts "p1 score : " +  @p1.score.to_s
+      puts "p2 score : " +  @p2.score.to_s
+
+      reset_board
+    end
+
+    get_board
+  end
+
+  def reset_board
+    for row in @@board
+      row.clear
+      row.insert(0," ", " ", " ")
+    end
+  end
+
+  def check_win(piece)
+    for row in @@board
+      if check_row(row, piece)
+        return true
+      end
+    end
+    if check_col(piece) == true
+      return true
+    end
+    if check_diag(piece) == true
+      return true
+    end
+  end
+
+  def check_row(row, piece)
+    for i in row
+      if i != piece
+        return false
+      end
+    end
+
+    return true
+  end
+  def check_col(piece)
+    for n in 0..2
+      tir = true
+
+      for row in @@board
+        if row[n] != piece
+          tir = false
+          next
+        end
+      end  
+
+      if tir == true
+        return tir
+      end
+
+    end  
+
+    return tir
+  end
+  
+  def check_diag(piece)
+    tir = true
+
+    for n in 0..2
+      if @@board[n][n] != piece
+        tir = false
+        next
+      end
+    end  
+
+    if tir == true
+      return tir
+    end 
+
+    tir = true
+
+    for n in 0..2
+      if @@board[n][2-n] != piece
+        tir = false
+        next
+      end
+    end  
+
+    return tir
+  end
+end
+
+p1 = Player.new("p1", "X", 0)
+p2 = Player.new("p2", "O", 0)
+
+game = Game.new(p1, p2)
+game.get_board
+
+while true
+  game.move
+end
